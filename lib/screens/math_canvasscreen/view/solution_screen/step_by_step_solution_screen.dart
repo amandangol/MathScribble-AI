@@ -78,7 +78,7 @@ class StepByStepSolutionScreen extends StatelessWidget {
           ),
           const SizedBox(width: 16),
           Text(
-            'Solution Steps',
+            'Solution',
             style: GoogleFonts.rubik(
               fontSize: 20,
               fontWeight: FontWeight.bold,
