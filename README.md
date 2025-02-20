@@ -2,8 +2,7 @@
 
 A new Flutter project.
 
-![flutter_01](https://github.com/user-attachments/assets/975b1024-aa79-44f4-beb6-053fdd9d2c68)
-
+  <img src="https://github.com/user-attachments/assets/975b1024-aa79-44f4-beb6-053fdd9d2c68" alt="Home"  height="500">
 
 ## Getting Started
 
