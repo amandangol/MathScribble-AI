@@ -2,6 +2,7 @@
 
 A new Flutter project.
 
+  <img src="https://github.com/user-attachments/assets/975b1024-aa79-44f4-beb6-053fdd9d2c68" alt="Home"  height="500">
 
 ## Getting Started
 

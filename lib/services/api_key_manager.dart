@@ -55,7 +55,7 @@ class ApiKeyRotator {
   }
 
   void markKeyAsError(String key) {
-    // Mark the key as having an error by setting its last used time
+    // hmm marking the key as having an error by setting its last used time
     // to now plus the cooldown period
     _lastUsedTime[key] = DateTime.now().add(_cooldownPeriod);
   }

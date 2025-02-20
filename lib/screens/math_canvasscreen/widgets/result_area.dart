@@ -69,13 +69,6 @@ class _ResultAreaState extends State<ResultArea>
     super.dispose();
   }
 
-  String _cleanExpression(String expression) {
-    return expression
-        .replaceAll('\n', ' ')
-        .replaceAll(RegExp(r'\s+'), ' ')
-        .trim();
-  }
-
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(

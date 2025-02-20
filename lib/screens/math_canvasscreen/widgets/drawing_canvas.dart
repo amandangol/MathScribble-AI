@@ -112,9 +112,7 @@ class _DrawingCanvasState extends State<DrawingCanvas>
           // Tools Panel
           if (isToolsVisible)
             Positioned(
-              bottom: recognizedTeX.isNotEmpty
-                  ? 200
-                  : 100, // Adjust based on result area visibility
+              bottom: recognizedTeX.isNotEmpty ? 200 : 100,
               right: 16,
               child: ScaleTransition(
                 scale: _toolsScaleAnimation,
@@ -124,9 +122,7 @@ class _DrawingCanvasState extends State<DrawingCanvas>
 
           // FAB
           Positioned(
-            bottom: recognizedTeX.isNotEmpty
-                ? 200
-                : 100, // Adjust based on result area visibility
+            bottom: recognizedTeX.isNotEmpty ? 200 : 100,
             right: 16,
             child: FloatingActionButton(
               onPressed: _toggleTools,
@@ -635,7 +631,6 @@ class _DrawingCanvasState extends State<DrawingCanvas>
         solvedResult = result;
       });
 
-      // Add to history
       widget.onHistoryItemAdded(
         MathHistoryItem(
           expression: expression,
