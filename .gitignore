@@ -1,0 +1,69 @@
+# Flutter/Dart related files
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.packages
+build/
+pubspec.lock
+
+# Android
+android/.gradle/
+android/app/debug.keystore
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/ephemeral/
+ios/Runner.xcworkspace/
+ios/Runner.xcodeproj/
+ios/Flutter/App.framework
+
+# macOS
+macos/Flutter/ephemeral/
+macos/.symlinks/
+macos/Pods/
+
+# Web
+web/.dart_tool/
+web/build/
+
+# Windows
+windows/flutter/ephemeral/
+windows/.dart_tool/
+windows/build/
+
+# Linux
+linux/flutter/ephemeral/
+linux/.dart_tool/
+linux/build/
+
+
+# Debugging & Logs
+debug.log
+*.log
+
+# Environment Variables
+.env
+.env.*
+
+# Editor & IDE Configurations
+.vscode/
+.idea/
+*.iml
+
+# Xcode
+**/*.xcodeproj/
+**/*.xcworkspace/
+**/*.xcuserstate
+
+# Miscellaneous
+*.swp
+*.swo
+*.DS_Store
+*.orig
+
+# Virtual Environments (if using Python)
+venv/
