@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class StepByStepSolutionScreen extends StatelessWidget {
   final String expression;
@@ -79,7 +78,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
           const SizedBox(width: 16),
           Text(
             'Solution',
-            style: GoogleFonts.rubik(
+            style: TextStyle(
+              fontFamily: 'Rubik',
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.grey[800],
@@ -102,7 +102,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
           children: [
             Text(
               'Expression',
-              style: GoogleFonts.roboto(
+              style: TextStyle(
+                fontFamily: 'Roboto',
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[600],
@@ -111,7 +112,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               expression,
-              style: GoogleFonts.robotoMono(
+              style: TextStyle(
+                fontFamily: 'JetBrainsMono',
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: Colors.black87,
@@ -123,7 +125,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
             ),
             Text(
               'Result',
-              style: GoogleFonts.roboto(
+              style: TextStyle(
+                fontFamily: 'Roboto',
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[600],
@@ -132,7 +135,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               result,
-              style: GoogleFonts.notoSans(
+              style: TextStyle(
+                fontFamily: 'NotoSans',
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF3F51B5),
@@ -160,7 +164,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   'Solution Steps',
-                  style: GoogleFonts.roboto(
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.grey[800],
@@ -187,7 +192,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
                       child: Center(
                         child: Text(
                           '${index + 1}',
-                          style: GoogleFonts.roboto(
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
                             color: Colors.white,
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
@@ -199,7 +205,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
                     Expanded(
                       child: Text(
                         step,
-                        style: GoogleFonts.roboto(
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
                           fontSize: 16,
                           color: Colors.black87,
                           height: 1.5,
@@ -232,7 +239,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
                 const SizedBox(width: 8),
                 Text(
                   'Mathematical Rules Applied',
-                  style: GoogleFonts.roboto(
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.grey[800],
@@ -255,7 +263,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
                       Expanded(
                         child: Text(
                           rule,
-                          style: GoogleFonts.roboto(
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
                             fontSize: 15,
                             color: Colors.black87,
                             height: 1.4,

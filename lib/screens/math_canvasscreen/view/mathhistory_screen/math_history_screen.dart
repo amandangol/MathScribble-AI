@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../model/math_history_model.dart';
 import '../../services/history_persistence_service.dart';
@@ -22,6 +21,21 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
   final HistoryPersistenceService _persistenceService =
       HistoryPersistenceService();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  late List<MathHistoryItem> _localHistory;
+
+  @override
+  void initState() {
+    super.initState();
+    _localHistory = List.from(widget.history);
+  }
+
+  @override
+  void didUpdateWidget(MathHistoryScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.history != oldWidget.history) {
+      _localHistory = List.from(widget.history);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +65,449 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildAppBar(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Hero(
+            tag: 'back_button',
+            child: Material(
+              color: Colors.transparent,
+              child: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.blue.shade100.withOpacity(0.3),
+                        blurRadius: 8,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: Icon(Icons.arrow_back, color: Colors.blue.shade600),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Text(
+            'Recognition History',
+            style: TextStyle(
+              fontFamily: 'Rubik',
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[800],
+            ),
+          ),
+          const Spacer(),
+          if (_localHistory.isNotEmpty)
+            TweenAnimationBuilder<double>(
+              duration: const Duration(milliseconds: 300),
+              tween: Tween(begin: 0.0, end: 1.0),
+              builder: (context, value, child) {
+                return Transform.scale(
+                  scale: value,
+                  child: child,
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.blue.shade100.withOpacity(0.3),
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.delete_outline),
+                  onPressed: () => _showClearHistoryDialog(context),
+                  tooltip: 'Clear History',
+                  color: Colors.red.shade400,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSolutionSection(String title, String content) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey[200]!),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontFamily: 'Rubik',
+              fontSize: 14,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            content,
+            style: TextStyle(
+              fontFamily: 'JetBrainsMono',
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: title == 'Result' ? Colors.green[700] : Colors.black87,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStepItem(int index, String step) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.blue[50],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: Colors.blue[100],
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              '$index',
+              style: TextStyle(
+                fontFamily: 'Rubik',
+                fontWeight: FontWeight.bold,
+                color: Colors.blue[900],
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              step,
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 15,
+                color: Colors.blue[900],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRuleItem(String rule) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.purple[50],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.info_outline, size: 20, color: Colors.purple[400]),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              rule,
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 14,
+                color: Colors.purple[900],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHistoryItem(MathHistoryItem item) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 2,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () => _showSolutionBottomSheet(item),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Expression icon - made smaller
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(Icons.functions,
+                        color: Colors.blue.shade600, size: 16),
+                  ),
+                  const SizedBox(width: 12),
+                  // Expression text
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Expression',
+                          style: TextStyle(
+                            fontFamily: 'Rubik',
+                            fontSize: 13,
+                            color: Colors.grey[700],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          item.expression,
+                          style: const TextStyle(
+                            fontFamily: 'Rubik',
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      _formatDate(item.timestamp),
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        color: Colors.grey[700],
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              if (item.solution != null) ...[
+                const SizedBox(height: 12),
+                Divider(height: 1, thickness: 1, color: Colors.grey[200]),
+                const SizedBox(height: 12),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade50,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(Icons.check_circle,
+                          color: Colors.green.shade600, size: 16),
+                    ),
+                    const SizedBox(width: 12),
+                    // Solution text
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Solution',
+                            style: TextStyle(
+                              fontFamily: 'Rubik',
+                              fontSize: 13,
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            item.solution!,
+                            style: TextStyle(
+                              fontFamily: 'Rubik',
+                              fontSize: 15,
+                              color: Colors.green[700],
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                if (item.steps != null && item.steps!.isNotEmpty) ...[
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.touch_app,
+                              size: 14, color: Colors.blue[600]),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Tap to view solution steps',
+                            style: TextStyle(
+                              fontFamily: 'Rubik',
+                              fontSize: 10,
+                              letterSpacing: 1,
+                              color: Colors.blue[600],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showSolutionBottomSheet(MathHistoryItem item) {
+    print('Steps: ${item.steps}'); // Debug print
+    print('Rules: ${item.rules}'); // Debug print
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.6,
+        minChildSize: 0.4,
+        maxChildSize: 0.95,
+        builder: (context, scrollController) => Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 8),
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              Expanded(
+                child: ListView(
+                  controller: scrollController,
+                  padding: const EdgeInsets.all(20),
+                  children: [
+                    Text(
+                      'Step by Step Solution',
+                      style: TextStyle(
+                        fontFamily: 'Rubik',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey[800],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildSolutionSection('Expression', item.expression),
+                    if (item.solution != null)
+                      _buildSolutionSection('Result', item.solution!),
+                    if (item.steps != null && item.steps!.isNotEmpty) ...[
+                      const SizedBox(height: 20),
+                      Text(
+                        'Solution Steps',
+                        style: TextStyle(
+                          fontFamily: 'Rubik',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      ...item.steps!.asMap().entries.map((entry) {
+                        return _buildStepItem(entry.key + 1, entry.value);
+                      }).toList(),
+                    ],
+                    if (item.rules != null && item.rules!.isNotEmpty) ...[
+                      const SizedBox(height: 20),
+                      Text(
+                        'Rules Applied',
+                        style: TextStyle(
+                          fontFamily: 'Rubik',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey[700],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      ...item.rules!.map(_buildRuleItem).toList(),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIconContainer({
+    required IconData icon,
+    required MaterialColor color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: color.shade50,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Icon(
+        icon,
+        color: color.shade600,
+        size: 20,
       ),
     );
   }
@@ -103,7 +560,8 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
               const SizedBox(height: 24),
               Text(
                 'No History Yet',
-                style: GoogleFonts.rubik(
+                style: TextStyle(
+                  fontFamily: 'Rubik',
                   fontSize: 20,
                   color: Colors.grey[800],
                   fontWeight: FontWeight.bold,
@@ -112,7 +570,8 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
               const SizedBox(height: 12),
               Text(
                 'Your solved expressions will appear here',
-                style: GoogleFonts.roboto(
+                style: TextStyle(
+                  fontFamily: 'Roboto',
                   fontSize: 15,
                   color: Colors.grey[600],
                 ),
@@ -128,10 +587,10 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
   Widget _buildAnimatedHistoryList() {
     return AnimatedList(
       key: _listKey,
-      initialItemCount: widget.history.length,
+      initialItemCount: _localHistory.length,
       padding: const EdgeInsets.all(16),
       itemBuilder: (context, index, animation) {
-        final item = widget.history[index];
+        final item = _localHistory[index];
         return SlideTransition(
           position: animation.drive(
             Tween(
@@ -148,135 +607,45 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
     );
   }
 
-  Widget _buildHistoryItem(MathHistoryItem item) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blue.shade100.withOpacity(0.2),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: TweenAnimationBuilder<double>(
-        duration: const Duration(milliseconds: 300),
-        tween: Tween(begin: 0.96, end: 1.0),
-        builder: (context, value, child) {
-          return Transform.scale(
-            scale: value,
-            child: child,
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildIconContainer(
-                    icon: Icons.functions,
-                    color: Colors.blue,
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Expression',
-                          style: GoogleFonts.rubik(
-                            fontSize: 14,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          item.expression,
-                          style: GoogleFonts.robotoMono(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    _formatDate(item.timestamp),
-                    style: GoogleFonts.roboto(
-                      color: Colors.grey[500],
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
+  Future<void> _clearHistoryWithAnimation() async {
+    final currentItems = List.from(_localHistory);
+
+    // Create a reversed copy to remove items from the end first
+    final reversedItems = currentItems.reversed.toList();
+
+    for (var i = 0; i < reversedItems.length; i++) {
+      final index = _localHistory.length - 1 - i;
+
+      // Remove the item from the local list
+      final removedItem = _localHistory.removeAt(index);
+
+      // Tell AnimatedList to animate the removal
+      _listKey.currentState?.removeItem(
+        index,
+        (context, animation) => SizeTransition(
+          sizeFactor: animation,
+          child: FadeTransition(
+            opacity: animation,
+            child: SlideTransition(
+              position: animation.drive(
+                Tween(
+                  begin: const Offset(1.0, 0.0),
+                  end: Offset.zero,
+                ).chain(CurveTween(curve: Curves.easeInCubic)),
               ),
-              if (item.solution != null) ...[
-                const SizedBox(height: 16),
-                Divider(color: Colors.grey[200]),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    _buildIconContainer(
-                      icon: Icons.check_circle,
-                      color: Colors.green,
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Solution',
-                            style: GoogleFonts.rubik(
-                              fontSize: 14,
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            item.solution!,
-                            style: GoogleFonts.robotoMono(
-                              fontSize: 16,
-                              color: Colors.green[700],
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ],
+              child: _buildHistoryItem(removedItem),
+            ),
           ),
         ),
-      ),
-    );
-  }
+        duration: Duration(milliseconds: 150 + (50 * i)),
+      );
 
-  Widget _buildIconContainer({
-    required IconData icon,
-    required MaterialColor color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: color.shade50,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Icon(
-        icon,
-        color: color.shade600,
-        size: 20,
-      ),
-    );
+      // Add a small delay between removals for a cascading effect
+      await Future.delayed(const Duration(milliseconds: 50));
+    }
+
+    // Update state to reflect empty history
+    setState(() {});
   }
 
   Future<void> _showClearHistoryDialog(BuildContext context) async {
@@ -296,20 +665,25 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          title: Text(
+          title: const Text(
             'Clear History',
-            style: GoogleFonts.rubik(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Rubik',
+            ),
           ),
-          content: Text(
+          content: const Text(
             'Are you sure you want to clear all history? This action cannot be undone.',
-            style: GoogleFonts.roboto(),
+            style: TextStyle(
+              fontFamily: 'Roboto',
+            ),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
               child: Text(
                 'Cancel',
-                style: GoogleFonts.rubik(color: Colors.grey[600]),
+                style: TextStyle(color: Colors.grey[600], fontFamily: 'Rubik'),
               ),
             ),
             Container(
@@ -320,9 +694,9 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
               ),
               child: TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: Text(
+                child: const Text(
                   'Clear',
-                  style: GoogleFonts.rubik(color: Colors.red),
+                  style: TextStyle(color: Colors.red, fontFamily: 'Rubik'),
                 ),
               ),
             ),
@@ -332,101 +706,12 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
     );
 
     if (result == true) {
-      // Animate items out before clearing
-      final itemCount = widget.history.length;
-      for (var i = itemCount - 1; i >= 0; i--) {
-        _listKey.currentState?.removeItem(
-          i,
-          (context, animation) => SizeTransition(
-            sizeFactor: animation,
-            child: FadeTransition(
-              opacity: animation,
-              child: _buildHistoryItem(widget.history[i]),
-            ),
-          ),
-          duration: const Duration(milliseconds: 200),
-        );
-      }
+      await _clearHistoryWithAnimation();
 
-      // Wait for animation to complete before clearing
-      await Future.delayed(const Duration(milliseconds: 250));
       await _persistenceService.clearHistory();
+
       widget.onHistoryChanged([]);
     }
-  }
-
-  Widget _buildAppBar(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          Hero(
-            tag: 'back_button',
-            child: Material(
-              color: Colors.transparent,
-              child: GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.blue.shade100.withOpacity(0.3),
-                        blurRadius: 8,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: Icon(Icons.arrow_back, color: Colors.blue.shade600),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Text(
-            'Recognition History',
-            style: GoogleFonts.rubik(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[800],
-            ),
-          ),
-          const Spacer(),
-          if (widget.history.isNotEmpty)
-            TweenAnimationBuilder<double>(
-              duration: const Duration(milliseconds: 300),
-              tween: Tween(begin: 0.0, end: 1.0),
-              builder: (context, value, child) {
-                return Transform.scale(
-                  scale: value,
-                  child: child,
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.blue.shade100.withOpacity(0.3),
-                      blurRadius: 8,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.delete_outline),
-                  onPressed: () => _showClearHistoryDialog(context),
-                  tooltip: 'Clear History',
-                  color: Colors.red.shade400,
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
   }
 
   String _formatDate(DateTime date) {

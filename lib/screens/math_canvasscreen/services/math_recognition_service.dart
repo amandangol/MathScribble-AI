@@ -177,26 +177,22 @@ class MathRecognitionService {
       }
 
       try {
-        //parse the entire response first
-        try {
-          return MathSolution.fromJson(json.decode(response.text!));
-        } catch (_) {
-          // if that fails, try to extract JSON with more robust parsing
-        }
+        final jsonStr = response.text!.substring(
+          response.text!.indexOf('{'),
+          response.text!.lastIndexOf('}') + 1,
+        );
 
-        // Look for JSON-like structure with regex
-        final jsonMatch = RegExp(r'{[\s\S]*}').firstMatch(response.text!);
-        if (jsonMatch == null) {
-          throw Exception('No valid JSON found in response');
-        }
-
-        final jsonStr = jsonMatch.group(0);
-        if (jsonStr == null) {
-          throw Exception('Failed to extract JSON from response');
-        }
+        print('Extracted JSON: $jsonStr');
 
         final Map<String, dynamic> resultMap = json.decode(jsonStr);
-        return MathSolution.fromJson(resultMap);
+        final solution = MathSolution.fromJson(resultMap);
+
+        // Add debug logging
+
+        print('Steps: ${solution.steps}');
+        print('Rules: ${solution.rules}');
+
+        return solution;
       } catch (e) {
         print('Error parsing solution response: $e');
         print('Raw response: ${response.text}');

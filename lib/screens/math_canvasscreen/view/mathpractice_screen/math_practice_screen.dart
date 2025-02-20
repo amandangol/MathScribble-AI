@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../model/math_history_model.dart';
 import '../../services/history_persistence_service.dart';
 import '../../widgets/drawing_canvas.dart';
@@ -121,10 +120,11 @@ class _MathPracticeScreenState extends State<MathPracticeScreen> {
             ),
           ),
           const SizedBox(width: 16),
-          Expanded(
+          const Expanded(
             child: Text(
               'MathScribe AI',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
+                fontFamily: 'Outfit',
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFF1A237E),

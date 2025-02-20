@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../model/math_solution_model.dart';
 import '../view/solution_screen/step_by_step_solution_screen.dart';
@@ -111,7 +110,8 @@ class _ResultAreaState extends State<ResultArea>
             ),
             child: Text(
               widget.expression,
-              style: GoogleFonts.robotoMono(
+              style: const TextStyle(
+                fontFamily: 'RobotoMono',
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: Colors.black87,
@@ -187,9 +187,10 @@ class _ResultAreaState extends State<ResultArea>
                         color: const Color(0xFF3F51B5).withOpacity(0.1),
                         borderRadius: BorderRadius.circular(6),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Result',
-                        style: GoogleFonts.roboto(
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: const Color(0xFF3F51B5),
@@ -200,10 +201,11 @@ class _ResultAreaState extends State<ResultArea>
                     Expanded(
                       child: Text(
                         widget.solution!.result,
-                        style: GoogleFonts.notoSans(
+                        style: const TextStyle(
+                          fontFamily: 'Rubik',
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF3F51B5),
+                          color: Color(0xFF3F51B5),
                         ),
                       ),
                     ),
@@ -212,7 +214,10 @@ class _ResultAreaState extends State<ResultArea>
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
                   icon: const Icon(Icons.science_outlined),
-                  label: const Text('View Step-by-Step Solution'),
+                  label: const Text(
+                    'View Step-by-Step Solution',
+                    style: TextStyle(fontFamily: 'Outfit'),
+                  ),
                   onPressed: () {
                     Navigator.push(
                       context,

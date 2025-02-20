@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -90,11 +89,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             right: 16,
             child: TextButton(
               onPressed: _finishOnboarding,
-              child: Text(
+              child: const Text(
                 'Skip',
-                style: GoogleFonts.outfit(
+                style: TextStyle(
+                  fontFamily: 'OpenSans',
                   fontSize: 16,
-                  color: const Color(0xFF3F51B5),
+                  color: Color(0xFF3F51B5),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -183,10 +183,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: Text(
                 page.title,
-                style: GoogleFonts.outfit(
+                style: const TextStyle(
+                  fontFamily: 'Outfit',
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xFF1A237E),
+                  color: Color(0xFF1A237E),
                   height: 1.2,
                 ),
                 textAlign: TextAlign.center,
@@ -197,9 +198,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Text(
                 page.description,
-                style: GoogleFonts.outfit(
+                style: const TextStyle(
+                  fontFamily: 'OpenSans',
                   fontSize: 16,
-                  color: const Color(0xFF3F51B5),
+                  color: Color(0xFF3F51B5),
                   height: 1.5,
                 ),
                 textAlign: TextAlign.center,
@@ -240,11 +242,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       curve: Curves.easeInOut,
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Previous',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
+                      fontFamily: 'OpenSans',
                       fontSize: 16,
-                      color: const Color(0xFF3F51B5),
+                      color: Color(0xFF3F51B5),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -286,7 +289,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         _currentPage < _pages.length - 1
                             ? 'Next'
                             : 'Get Started',
-                        style: GoogleFonts.outfit(
+                        style: const TextStyle(
+                          fontFamily: 'OpenSans',
                           fontSize: 16,
                           color: Colors.white,
                           fontWeight: FontWeight.w600,

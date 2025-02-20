@@ -7,7 +7,6 @@ import 'painters/guidelines_painter.dart';
 import '../services/math_recognition_service.dart';
 import '../../../utils/custom_loading_overlay.dart';
 import 'result_area.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class DrawingCanvas extends StatefulWidget {
   final Function(MathHistoryItem) onHistoryItemAdded;
@@ -155,12 +154,13 @@ class _DrawingCanvasState extends State<DrawingCanvas>
         onPressed: () => Navigator.pop(context),
       ),
       centerTitle: false,
-      title: Text(
+      title: const Text(
         'Drawing Area',
-        style: GoogleFonts.outfit(
+        style: TextStyle(
+          fontFamily: 'Outfit',
           fontSize: 16,
           fontWeight: FontWeight.w600,
-          color: const Color(0xFF1A237E),
+          color: Color(0xFF1A237E),
         ),
       ),
       actions: [
@@ -185,7 +185,7 @@ class _DrawingCanvasState extends State<DrawingCanvas>
 
   Widget _buildDrawingContainer() {
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 8, 16, 100),
+      margin: const EdgeInsets.fromLTRB(6, 8, 6, 100),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -221,7 +221,8 @@ class _DrawingCanvasState extends State<DrawingCanvas>
                   const SizedBox(width: 6),
                   Text(
                     currentGridType.toUpperCase(),
-                    style: GoogleFonts.outfit(
+                    style: const TextStyle(
+                      fontFamily: 'Outfit',
                       fontSize: 14,
                       color: const Color(0xFF3F51B5),
                     ),
@@ -275,7 +276,8 @@ class _DrawingCanvasState extends State<DrawingCanvas>
                         const SizedBox(height: 16),
                         Text(
                           'Start writing your expression',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
+                            fontFamily: 'Outfit',
                             fontSize: 16,
                             color: const Color(0xFF3F51B5).withOpacity(0.5),
                           ),
@@ -419,7 +421,8 @@ class _DrawingCanvasState extends State<DrawingCanvas>
                 ),
                 child: Text(
                   type.toUpperCase(),
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
+                    fontFamily: 'Outfit',
                     fontSize: 12,
                     color: currentGridType == type
                         ? Colors.white
@@ -472,9 +475,10 @@ class _DrawingCanvasState extends State<DrawingCanvas>
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Recognize Expression',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
+                    fontFamily: 'Outfit',
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
@@ -635,6 +639,8 @@ class _DrawingCanvasState extends State<DrawingCanvas>
         MathHistoryItem(
           expression: expression,
           solution: result.result,
+          steps: result.steps,
+          rules: result.rules,
           timestamp: DateTime.now(),
         ),
       );

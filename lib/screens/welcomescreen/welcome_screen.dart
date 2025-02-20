@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -12,6 +11,37 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
+
+  final List<FeatureData> features = [
+    FeatureData(
+      emoji: "✏️",
+      title: "Smart Drawing Tools",
+      shortDescription: "Multiple grid types and customization options",
+      fullDescription:
+          "Multiple grid types (square, coordinate, isometric), customizable colors and stroke widths.",
+    ),
+    FeatureData(
+      emoji: "🔄",
+      title: "Real-time Recognition",
+      shortDescription: "Instant mathematical expression conversion",
+      fullDescription:
+          "Instantly converts your handwritten mathematical expressions into digital format. Supports complex equations, algebraic expressions, and mathematical symbols with high accuracy.",
+    ),
+    FeatureData(
+      emoji: "📊",
+      title: "Step-by-Step Solutions",
+      shortDescription: "Detailed mathematical explanations",
+      fullDescription:
+          "Get detailed explanations and mathematical rules for each solution step. Learn the reasoning behind every transformation and calculation with clear, educational breakdowns.",
+    ),
+    FeatureData(
+      emoji: "📝",
+      title: "History & Progress",
+      shortDescription: "Track your mathematical journey",
+      fullDescription:
+          "Track your calculations with a comprehensive history of solved problems. Review your past solutions and monitor your progress.",
+    ),
+  ];
 
   @override
   void initState() {
@@ -35,8 +65,117 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     super.dispose();
   }
 
+  void _showFeatureDialog(BuildContext context, FeatureData feature) {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (context, animation, secondaryAnimation) => Container(),
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final curvedAnimation = CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOutBack,
+        );
+
+        return ScaleTransition(
+          scale: Tween<double>(begin: 0.8, end: 1.0).animate(curvedAnimation),
+          child: FadeTransition(
+            opacity: animation,
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              contentPadding: EdgeInsets.zero,
+              content: Container(
+                constraints: const BoxConstraints(maxWidth: 400),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF0F3FF),
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              feature.emoji,
+                              style: const TextStyle(fontSize: 24),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              feature.title,
+                              style: const TextStyle(
+                                fontFamily: 'Outfit',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF1A237E),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Text(
+                        feature.fullDescription,
+                        style: TextStyle(
+                          fontFamily: 'Outfit',
+                          fontSize: 16,
+                          height: 1.5,
+                          color: const Color(0xFF3F51B5).withOpacity(0.8),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF3F51B5),
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            'Got it',
+                            style: TextStyle(
+                              fontFamily: 'Outfit',
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 400),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Rest of the build method remains the same until _buildFeatureGrid
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -65,6 +204,65 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   _buildFeatureGrid(),
                   const SizedBox(height: 40),
                   _buildStartButton(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStartButton() {
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: Container(
+        width: double.infinity,
+        height: 60,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF3F51B5), Color(0xFF5C6BC0)],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF3F51B5).withOpacity(0.2),
+              blurRadius: 20,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => Navigator.pushNamed(context, '/drawing'),
+            borderRadius: BorderRadius.circular(16),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Start Writing',
+                    style: TextStyle(
+                      fontFamily: 'Outfit',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.arrow_forward_rounded,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -104,12 +302,13 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       ),
                     ),
                     const SizedBox(width: 16),
-                    Text(
+                    const Text(
                       "f(x)",
-                      style: GoogleFonts.jetBrainsMono(
+                      style: TextStyle(
+                        fontFamily: 'JetBrainsMono',
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xFF3F51B5),
+                        color: Color(0xFF3F51B5),
                       ),
                     ),
                   ],
@@ -131,9 +330,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       ),
                     ],
                   ),
-                  child: Text(
+                  child: const Text(
                     "∑",
-                    style: GoogleFonts.jetBrainsMono(
+                    style: TextStyle(
+                      fontFamily: 'JetBrainsMono',
                       fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -144,13 +344,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ],
           ),
           const SizedBox(height: 32),
-          Text(
+          const Text(
             'MathScribe AI',
-            style: GoogleFonts.outfit(
+            style: TextStyle(
+              fontFamily: 'Outfit',
               fontSize: 36,
               fontWeight: FontWeight.w600,
               height: 1.2,
-              color: const Color(0xFF1A237E),
+              color: Color(0xFF1A237E),
             ),
           ),
           const SizedBox(height: 16),
@@ -163,11 +364,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 color: const Color(0xFF3F51B5).withOpacity(0.1),
               ),
             ),
-            child: Text(
+            child: const Text(
               'Transform handwritten math into digital solutions with AI-powered recognition',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
+                fontFamily: 'Outfit',
                 fontSize: 16,
-                color: const Color(0xFF3F51B5),
+                color: Color(0xFF3F51B5),
                 height: 1.5,
               ),
             ),
@@ -185,151 +387,116 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
       childAspectRatio: 0.85,
-      children: [
-        _buildFeatureCard(
-          emoji: "✏️",
-          title: "Smart Drawing Tools",
-          description:
-              "Multiple grid types (square, coordinate, isometric), customizable colors and stroke widths",
-        ),
-        _buildFeatureCard(
-          emoji: "🔄",
-          title: "Real-time Recognition",
-          description:
-              "Instantly converts your handwritten mathematical expressions into digital format",
-        ),
-        _buildFeatureCard(
-          emoji: "📊",
-          title: "Step-by-Step Solutions",
-          description:
-              "Get detailed explanations and mathematical rules for each solution step",
-        ),
-        _buildFeatureCard(
-          emoji: "📝",
-          title: "History & Progress",
-          description:
-              "Track your calculations with a comprehensive history of solved problems",
-        ),
-      ],
+      children: features
+          .map((feature) => _buildFeatureCard(
+                feature: feature,
+                onTap: () => _showFeatureDialog(context, feature),
+              ))
+          .toList(),
     );
   }
 
   Widget _buildFeatureCard({
-    required String emoji,
-    required String title,
-    required String description,
+    required FeatureData feature,
+    required VoidCallback onTap,
   }) {
     return FadeTransition(
       opacity: _fadeAnimation,
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: const Color(0xFF3F51B5).withOpacity(0.1),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF3F51B5).withOpacity(0.05),
-              blurRadius: 20,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0F3FF),
-                borderRadius: BorderRadius.circular(12),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: const Color(0xFF3F51B5).withOpacity(0.1),
               ),
-              child: Text(
-                emoji,
-                style: const TextStyle(fontSize: 24),
-              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF3F51B5).withOpacity(0.05),
+                  blurRadius: 20,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: GoogleFonts.outfit(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF1A237E),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              description,
-              style: GoogleFonts.outfit(
-                fontSize: 14,
-                color: const Color(0xFF3F51B5).withOpacity(0.8),
-                height: 1.4,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStartButton() {
-    return FadeTransition(
-      opacity: _fadeAnimation,
-      child: Container(
-        width: double.infinity,
-        height: 60,
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF3F51B5), Color(0xFF5C6BC0)],
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF3F51B5).withOpacity(0.2),
-              blurRadius: 20,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () => Navigator.pushNamed(context, '/drawing'),
-            borderRadius: BorderRadius.circular(16),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Start Writing',
-                    style: GoogleFonts.outfit(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF0F3FF),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  const SizedBox(width: 12),
-                  Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(8),
+                  child: Text(
+                    feature.emoji,
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  feature.title,
+                  style: const TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF1A237E),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  feature.shortDescription,
+                  style: TextStyle(
+                    fontFamily: 'Outfit',
+                    fontSize: 14,
+                    color: const Color(0xFF3F51B5).withOpacity(0.8),
+                    height: 1.4,
+                  ),
+                ),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Learn more',
+                      style: TextStyle(
+                        fontFamily: 'Outfit',
+                        fontSize: 14,
+                        color: const Color(0xFF3F51B5).withOpacity(0.8),
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                    child: const Icon(
+                    const SizedBox(width: 4),
+                    Icon(
                       Icons.arrow_forward_rounded,
-                      color: Colors.white,
-                      size: 18,
+                      size: 16,
+                      color: const Color(0xFF3F51B5).withOpacity(0.8),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
   }
+}
+
+class FeatureData {
+  final String emoji;
+  final String title;
+  final String shortDescription;
+  final String fullDescription;
+
+  FeatureData({
+    required this.emoji,
+    required this.title,
+    required this.shortDescription,
+    required this.fullDescription,
+  });
 }

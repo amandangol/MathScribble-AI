@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class RecognitionButton extends StatelessWidget {
   final bool isLoading;
@@ -49,9 +48,10 @@ class RecognitionButton extends StatelessWidget {
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
+                        const Text(
                           'Recognize Expression',
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
+                            fontFamily: 'Outfit',
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: Colors.white,

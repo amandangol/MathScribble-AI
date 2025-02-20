@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomLoadingOverlay extends StatelessWidget {
   final String loadingType;
@@ -38,10 +37,11 @@ class CustomLoadingOverlay extends StatelessWidget {
                 loadingType == "recognizing"
                     ? "Recognizing Expression..."
                     : "Solving Expression...",
-                style: GoogleFonts.outfit(
+                style: const TextStyle(
+                  fontFamily: 'Outfit',
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: const Color(0xFF1A237E),
+                  color: Color(0xFF1A237E),
                 ),
               ),
             ],

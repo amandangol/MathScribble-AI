@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -174,12 +173,13 @@ class _SplashScreenState extends State<SplashScreen>
                           offset: Offset(0, _titleSlideAnimation.value),
                           child: Opacity(
                             opacity: _titleOpacityAnimation.value,
-                            child: Text(
+                            child: const Text(
                               'MathScribe AI',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
+                                fontFamily: 'Outfit',
                                 fontSize: 36,
                                 fontWeight: FontWeight.bold,
-                                color: const Color(0xFF1A237E),
+                                color: Color(0xFF1A237E),
                                 height: 1.2,
                               ),
                             ),
@@ -203,11 +203,12 @@ class _SplashScreenState extends State<SplashScreen>
                                 color: const Color(0xFF3F51B5).withOpacity(0.1),
                               ),
                             ),
-                            child: Text(
+                            child: const Text(
                               'Draw • Recognize • Learn',
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
+                                fontFamily: 'Outfit',
                                 fontSize: 18,
-                                color: const Color(0xFF3F51B5),
+                                color: Color(0xFF3F51B5),
                                 letterSpacing: 1.2,
                               ),
                             ),
@@ -279,7 +280,8 @@ class _SplashScreenState extends State<SplashScreen>
       opacity: animation.value,
       child: Text(
         symbol,
-        style: GoogleFonts.jetBrainsMono(
+        style: TextStyle(
+          fontFamily: 'JetBrainsMono',
           fontSize: 48,
           color: const Color(0xFF3F51B5).withOpacity(0.1),
           fontWeight: FontWeight.bold,
