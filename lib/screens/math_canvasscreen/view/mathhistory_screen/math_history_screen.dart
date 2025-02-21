@@ -169,7 +169,7 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
           Text(
             content,
             style: TextStyle(
-              fontFamily: 'JetBrainsMono',
+              fontFamily: 'Rubik',
               fontSize: 16,
               fontWeight: FontWeight.w500,
               color: title == 'Result' ? Colors.green[700] : Colors.black87,
@@ -195,13 +195,13 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
               color: Colors.blue[100],
-              borderRadius: BorderRadius.circular(4),
+              shape: BoxShape.circle,
             ),
             child: Text(
               '$index',
               style: TextStyle(
                 fontFamily: 'Rubik',
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 color: Colors.blue[900],
               ),
             ),
@@ -211,7 +211,7 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
             child: Text(
               step,
               style: TextStyle(
-                fontFamily: 'Roboto',
+                fontFamily: 'Rubik',
                 fontSize: 15,
                 color: Colors.blue[900],
               ),
@@ -238,7 +238,7 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
             child: Text(
               rule,
               style: TextStyle(
-                fontFamily: 'Roboto',
+                fontFamily: 'Rubik',
                 fontSize: 14,
                 color: Colors.purple[900],
               ),
@@ -265,7 +265,6 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Expression icon - made smaller
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
@@ -296,7 +295,7 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
                           style: const TextStyle(
                             fontFamily: 'Rubik',
                             fontSize: 15,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
@@ -312,7 +311,7 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
                     child: Text(
                       _formatDate(item.timestamp),
                       style: TextStyle(
-                        fontFamily: 'Roboto',
+                        fontFamily: 'Rubik',
                         color: Colors.grey[700],
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
@@ -359,7 +358,7 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
                               fontFamily: 'Rubik',
                               fontSize: 15,
                               color: Colors.green[700],
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
@@ -494,24 +493,6 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
     );
   }
 
-  Widget _buildIconContainer({
-    required IconData icon,
-    required MaterialColor color,
-  }) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: color.shade50,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Icon(
-        icon,
-        color: color.shade600,
-        size: 20,
-      ),
-    );
-  }
-
   Widget _buildEmptyState() {
     return TweenAnimationBuilder<double>(
       duration: const Duration(milliseconds: 400),
@@ -571,7 +552,7 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
               Text(
                 'Your solved expressions will appear here',
                 style: TextStyle(
-                  fontFamily: 'Roboto',
+                  fontFamily: 'Rubik',
                   fontSize: 15,
                   color: Colors.grey[600],
                 ),
@@ -675,7 +656,7 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
           content: const Text(
             'Are you sure you want to clear all history? This action cannot be undone.',
             style: TextStyle(
-              fontFamily: 'Roboto',
+              fontFamily: 'Rubik',
             ),
           ),
           actions: [

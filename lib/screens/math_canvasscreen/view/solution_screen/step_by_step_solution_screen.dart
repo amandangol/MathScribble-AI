@@ -103,7 +103,7 @@ class StepByStepSolutionScreen extends StatelessWidget {
             Text(
               'Expression',
               style: TextStyle(
-                fontFamily: 'Roboto',
+                fontFamily: 'Rubik',
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[600],
@@ -112,8 +112,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               expression,
-              style: TextStyle(
-                fontFamily: 'JetBrainsMono',
+              style: const TextStyle(
+                fontFamily: 'Rubik',
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: Colors.black87,
@@ -126,7 +126,7 @@ class StepByStepSolutionScreen extends StatelessWidget {
             Text(
               'Result',
               style: TextStyle(
-                fontFamily: 'Roboto',
+                fontFamily: 'Rubik',
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[600],
@@ -135,11 +135,11 @@ class StepByStepSolutionScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               result,
-              style: TextStyle(
-                fontFamily: 'NotoSans',
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF3F51B5),
+              style: const TextStyle(
+                fontFamily: 'Rubik',
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF3F51B5),
               ),
             ),
           ],
@@ -165,7 +165,7 @@ class StepByStepSolutionScreen extends StatelessWidget {
                 Text(
                   'Solution Steps',
                   style: TextStyle(
-                    fontFamily: 'Roboto',
+                    fontFamily: 'Rubik',
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.grey[800],
@@ -192,8 +192,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
                       child: Center(
                         child: Text(
                           '${index + 1}',
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
+                          style: const TextStyle(
+                            fontFamily: 'Rubik',
                             color: Colors.white,
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
@@ -205,8 +205,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
                     Expanded(
                       child: Text(
                         step,
-                        style: TextStyle(
-                          fontFamily: 'Roboto',
+                        style: const TextStyle(
+                          fontFamily: 'Rubik',
                           fontSize: 16,
                           color: Colors.black87,
                           height: 1.5,
@@ -240,7 +240,7 @@ class StepByStepSolutionScreen extends StatelessWidget {
                 Text(
                   'Mathematical Rules Applied',
                   style: TextStyle(
-                    fontFamily: 'Roboto',
+                    fontFamily: 'Rubik',
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: Colors.grey[800],
@@ -263,8 +263,8 @@ class StepByStepSolutionScreen extends StatelessWidget {
                       Expanded(
                         child: Text(
                           rule,
-                          style: TextStyle(
-                            fontFamily: 'Roboto',
+                          style: const TextStyle(
+                            fontFamily: 'Rubik',
                             fontSize: 15,
                             color: Colors.black87,
                             height: 1.4,

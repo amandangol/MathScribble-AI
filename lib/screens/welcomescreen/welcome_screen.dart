@@ -379,23 +379,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
   }
 
-  Widget _buildFeatureGrid() {
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 16,
-      crossAxisSpacing: 16,
-      childAspectRatio: 0.85,
-      children: features
-          .map((feature) => _buildFeatureCard(
-                feature: feature,
-                onTap: () => _showFeatureDialog(context, feature),
-              ))
-          .toList(),
-    );
-  }
-
   Widget _buildFeatureCard({
     required FeatureData feature,
     required VoidCallback onTap,
@@ -408,7 +391,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           onTap: onTap,
           borderRadius: BorderRadius.circular(20),
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -425,6 +408,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   padding: const EdgeInsets.all(12),
@@ -437,7 +421,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     style: const TextStyle(fontSize: 24),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 Text(
                   feature.title,
                   style: const TextStyle(
@@ -446,6 +430,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF1A237E),
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -456,6 +442,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     color: const Color(0xFF3F51B5).withOpacity(0.8),
                     height: 1.4,
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const Spacer(),
                 Row(
@@ -483,6 +471,23 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildFeatureGrid() {
+    return GridView.count(
+      crossAxisCount: 2,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      mainAxisSpacing: 16,
+      crossAxisSpacing: 16,
+      childAspectRatio: 0.8,
+      children: features
+          .map((feature) => _buildFeatureCard(
+                feature: feature,
+                onTap: () => _showFeatureDialog(context, feature),
+              ))
+          .toList(),
     );
   }
 }

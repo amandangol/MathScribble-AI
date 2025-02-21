@@ -111,7 +111,7 @@ class _ResultAreaState extends State<ResultArea>
             child: Text(
               widget.expression,
               style: const TextStyle(
-                fontFamily: 'RobotoMono',
+                fontFamily: 'Rubik',
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
                 color: Colors.black87,
@@ -190,7 +190,7 @@ class _ResultAreaState extends State<ResultArea>
                       child: const Text(
                         'Result',
                         style: TextStyle(
-                          fontFamily: 'Roboto',
+                          fontFamily: 'Rubik',
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: const Color(0xFF3F51B5),
