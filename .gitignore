@@ -47,7 +47,6 @@ debug.log
 
 # Environment Variables
 .env
-.env.*
 
 # Editor & IDE Configurations
 .vscode/
