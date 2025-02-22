@@ -1,4 +1,4 @@
-# MathScribble AI ✨
+# MathScribble AI 📐✨
 
 MathScribble AI is an innovative Flutter application that transforms handwritten mathematical expressions into digital solutions using advanced AI recognition models. The app combines specialized handwriting recognition with powerful mathematical computation capabilities.
 
@@ -9,45 +9,40 @@ MathScribble AI is an innovative Flutter application that transforms handwritten
 - **Step-by-Step Solutions**: Detailed explanations and mathematical rules for each solution step
 - **History & Progress Tracking**: Comprehensive history of solved problems with progress monitoring
 
-  <img src="https://github.com/user-attachments/assets/975b1024-aa79-44f4-beb6-053fdd9d2c68" alt="Home"  height="500">
-
+<img src="https://github.com/user-attachments/assets/9c22e757-b992-47dd-a759-980e9fa7774d" alt="Home"  height="500">
 
 ## Model Architecture 🧠
 
-### Hybrid Recognition Approach
+### Recognition and Solution Approaches
 
-We implement a hybrid approach using two specialized services:
-
-1. **Handwriting Recognition Service**
-   - Primary: Custom Handwriting API
-   - Optimized for mathematical symbol recognition
-   - Handles complex mathematical notation and symbols
-   - Real-time stroke processing and path analysis
-   - Support for LaTeX conversion and standardization
-
-2. **Mathematical Computation Service**
-   - Primary: Gemini 2.0 Flash
-   - Advanced problem-solving capabilities
-   - Step-by-step solution generation
-   - Mathematical rule explanation
+1. **Option 1: Gemini 2.0 Flash**
+   - **Capabilities**: Both recognition and solving
+   - Recognition through image analysis
+   - Advanced problem-solving with step-by-step solutions
+   - Comprehensive explanations of mathematical rules
    - API key rotation for scalability
 
-### Why This Architecture?
+2. **Option 2: Hybrid Approach**
+   - **Recognition**: Handwriting API (specialized for math symbols)
+   - **Solving**: Gemini 2.0 Flash
+   - More focused recognition but potentially slower due to service switching
 
-1. **Specialized Expertise**
-   - Handwriting API focuses on accurate symbol recognition
-   - Gemini handles complex mathematical reasoning along with symbol recognition
-   - Better results than using a single model for both tasks
+### Why Two Options?
+
+1. **Flexibility**
+   - Gemini provides an all-in-one solution
+   - Handwriting API offers specialized recognition when needed
+   - Users can choose based on their needs
 
 2. **Scalability**
-   - API key rotation system for handling high traffic
-   - Cooldown periods prevent rate limiting
-   - Efficient error handling and recovery
+   - API key rotation system for Gemini
+   - Load balancing between services
+   - Fallback options available
 
 3. **Reliability**
-   - Fallback mechanisms between services
+   - Multiple recognition paths
    - Robust error handling
-   - Consistent performance under load
+   - Service redundancy
 
 ## Technical Implementation 💻
 
@@ -60,7 +55,7 @@ class MixedHandwritingService extends AbstractMathService {
 }
 ```
 
-- Coordinates between recognition and solving services
+- Coordinates between services
 - Handles initialization and error management
 - Maintains state consistency
 
@@ -68,7 +63,7 @@ class MixedHandwritingService extends AbstractMathService {
 
 1. Stroke Collection
 2. Path Processing
-3. Symbol Recognition
+3. Symbol Recognition (via chosen service)
 4. LaTeX Conversion
 5. Expression Standardization
 
@@ -97,20 +92,44 @@ class MixedHandwritingService extends AbstractMathService {
    cd mathscribble-ai
    ```
 
-2. Create an environment configuration file (`lib/config/env_config.dart`):
+2. Set up environment variables:
+   
+   Create a `.env` file in the root directory:
+   ```env
+   # Multiple Gemini API keys for rotation (comma-separated)
+   GEMINI_API_KEYS=key1,key2,key3,key4
+
+   # Handwriting API token
+   HANDWRITING_API_TOKEN=your_handwriting_api_token
+   ```
+
+3. Create environment configuration file (`lib/config/env_config.dart`):
    ```dart
+   import 'package:flutter_dotenv/flutter_dotenv.dart';
+
    class EnvConfig {
-     static const String handwritingApiToken = 'YOUR_HANDWRITING_API_TOKEN';
-     static const List<String> geminiApiKeys = ['KEY1', 'KEY2', 'KEY3'];
+     static List<String> get geminiApiKeys {
+       final keys = dotenv.env['GEMINI_API_KEYS']?.split(',') ?? [];
+       return keys.map((key) => key.trim()).toList();
+     }
+
+     static String get handwritingApiToken {
+       return dotenv.env['HANDWRITING_API_TOKEN'] ?? '';
+     }
    }
    ```
 
-3. Install dependencies:
+4. Add to .gitignore:
+   ```
+   .env
+   ```
+
+5. Install dependencies:
    ```bash
    flutter pub get
    ```
 
-4. Run the app:
+6. Run the app:
    ```bash
    flutter run
    ```
@@ -123,9 +142,9 @@ class MixedHandwritingService extends AbstractMathService {
 
 ## Innovation Assessment 🎯
 
-1. **Hybrid Architecture**
-   - Specialized services for optimal performance
-   - Efficient resource utilization
+1. **Flexible Architecture**
+   - Multiple recognition options
+   - Service switching capability
    - Robust error handling
 
 2. **Scalability Features**
