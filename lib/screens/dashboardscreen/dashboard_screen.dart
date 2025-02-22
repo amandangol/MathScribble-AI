@@ -93,9 +93,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                   children: [
                     Container(
                       padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF0F3FF),
-                        borderRadius: const BorderRadius.vertical(
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFF0F3FF),
+                        borderRadius: BorderRadius.vertical(
                           top: Radius.circular(20),
                         ),
                       ),

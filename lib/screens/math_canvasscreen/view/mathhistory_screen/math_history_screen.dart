@@ -7,7 +7,7 @@ class MathHistoryScreen extends StatefulWidget {
   final List<MathHistoryItem> history;
   final Function(List<MathHistoryItem>) onHistoryChanged;
 
-  MathHistoryScreen({
+  const MathHistoryScreen({
     super.key,
     required this.history,
     required this.onHistoryChanged,
@@ -467,7 +467,7 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
                       const SizedBox(height: 12),
                       ...item.steps!.asMap().entries.map((entry) {
                         return _buildStepItem(entry.key + 1, entry.value);
-                      }).toList(),
+                      }),
                     ],
                     if (item.rules != null && item.rules!.isNotEmpty) ...[
                       const SizedBox(height: 20),
@@ -481,7 +481,7 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      ...item.rules!.map(_buildRuleItem).toList(),
+                      ...item.rules!.map(_buildRuleItem),
                     ],
                   ],
                 ),
@@ -589,20 +589,19 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
   }
 
   Future<void> _clearHistoryWithAnimation() async {
-    final currentItems = List.from(_localHistory);
+    final itemCount = _localHistory.length;
 
-    // Create a reversed copy to remove items from the end first
-    final reversedItems = currentItems.reversed.toList();
+    // Remove items one by one from the end
+    for (var i = itemCount - 1; i >= 0; i--) {
+      // Store the item before removing it
+      final item = _localHistory[i];
 
-    for (var i = 0; i < reversedItems.length; i++) {
-      final index = _localHistory.length - 1 - i;
+      // Remove from local history
+      _localHistory.removeAt(i);
 
-      // Remove the item from the local list
-      final removedItem = _localHistory.removeAt(index);
-
-      // Tell AnimatedList to animate the removal
+      // Animate the removal
       _listKey.currentState?.removeItem(
-        index,
+        i,
         (context, animation) => SizeTransition(
           sizeFactor: animation,
           child: FadeTransition(
@@ -614,18 +613,17 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
                   end: Offset.zero,
                 ).chain(CurveTween(curve: Curves.easeInCubic)),
               ),
-              child: _buildHistoryItem(removedItem),
+              child: _buildHistoryItem(item),
             ),
           ),
         ),
-        duration: Duration(milliseconds: 150 + (50 * i)),
+        duration: Duration(milliseconds: 150 + (50 * (itemCount - i))),
       );
 
-      // Add a small delay between removals for a cascading effect
+      // Add a small delay between removals
       await Future.delayed(const Duration(milliseconds: 50));
     }
 
-    // Update state to reflect empty history
     setState(() {});
   }
 

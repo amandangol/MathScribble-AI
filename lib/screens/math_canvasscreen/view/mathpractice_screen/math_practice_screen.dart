@@ -135,7 +135,7 @@ class _MathPracticeScreenState extends State<MathPracticeScreen> {
                 fontFamily: 'Outfit',
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
-                color: const Color(0xFF1A237E),
+                color: Color(0xFF1A237E),
               ),
             ),
           ),

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onnxruntime/onnxruntime.dart';
 import 'package:image/image.dart' as img;
-import 'dart:typed_data' show Int64List;
 
 class MathCanvas extends StatefulWidget {
   const MathCanvas({super.key});
@@ -102,26 +101,25 @@ class _MathCanvasState extends State<MathCanvas> {
 
   String decodeTokens(List<int> tokens) {
     // Get special token contents
-    final bos_content = (_specialTokensMap?['bos_token']
+    final bosContent = (_specialTokensMap?['bos_token']
         as Map<String, dynamic>)['content'] as String?;
-    final eos_content = (_specialTokensMap?['eos_token']
+    final eosContent = (_specialTokensMap?['eos_token']
         as Map<String, dynamic>)['content'] as String?;
-    final pad_content = (_specialTokensMap?['pad_token']
+    final padContent = (_specialTokensMap?['pad_token']
         as Map<String, dynamic>)['content'] as String?;
 
     final filteredTokens = tokens.where((id) {
       final token = _idToToken?[id];
-      return token != bos_content &&
-          token != eos_content &&
-          token != pad_content;
+      return token != bosContent && token != eosContent && token != padContent;
     });
 
     return filteredTokens.map((id) => _idToToken?[id] ?? '').join('');
   }
 
   Future<void> recognizeMath() async {
-    if (_encoderSession == null || _decoderSession == null || strokes.isEmpty)
+    if (_encoderSession == null || _decoderSession == null || strokes.isEmpty) {
       return;
+    }
 
     setState(() {
       isRecognizing = true;
@@ -180,9 +178,9 @@ class _MathCanvasState extends State<MathCanvas> {
         for (int w = 0; w < 384; w++) {
           final pixel = processedImage.getPixel(w, h);
           double value;
-          if (c == 0)
+          if (c == 0) {
             value = pixel.r / 255.0;
-          else if (c == 1)
+          } else if (c == 1)
             value = pixel.g / 255.0;
           else
             value = pixel.b / 255.0;
@@ -202,7 +200,7 @@ class _MathCanvasState extends State<MathCanvas> {
     try {
       final runOptions = OrtRunOptions();
       final inputs = {'pixel_values': inputTensor};
-      final outputs = await _encoderSession!.run(runOptions, inputs);
+      final outputs = _encoderSession!.run(runOptions, inputs);
 
       if (outputs.isEmpty) throw Exception('No output from encoder');
 
@@ -220,20 +218,20 @@ class _MathCanvasState extends State<MathCanvas> {
   }
 
   Future<String> generateText(Map<String, dynamic> encoderOutputs) async {
-    final bos_token_map =
+    final bosTokenMap =
         _specialTokensMap?['bos_token'] as Map<String, dynamic>?;
-    if (bos_token_map == null) {
+    if (bosTokenMap == null) {
       throw Exception('BOS token not found in special tokens map');
     }
 
-    final bos_token_content = bos_token_map['content'] as String?;
-    if (bos_token_content == null) {
+    final bosTokenContent = bosTokenMap['content'] as String?;
+    if (bosTokenContent == null) {
       throw Exception('BOS token content not found');
     }
 
-    final startId = _tokenToId?[bos_token_content];
+    final startId = _tokenToId?[bosTokenContent];
     if (startId == null) {
-      throw Exception('Start token ID not found for token: $bos_token_content');
+      throw Exception('Start token ID not found for token: $bosTokenContent');
     }
 
     List<int> generatedIds = [startId];
@@ -287,16 +285,16 @@ class _MathCanvasState extends State<MathCanvas> {
           'encoder_hidden_states': encoderTensor,
         };
 
-        final outputs = await _decoderSession!.run(OrtRunOptions(), inputs);
+        final outputs = _decoderSession!.run(OrtRunOptions(), inputs);
         final logits = outputs[0]!.value as List<List<List<double>>>;
 
         final nextTokenId = getNextToken(logits[0][generatedIds.length - 1]);
 
-        final eos_token_map =
+        final eosTokenMap =
             _specialTokensMap?['eos_token'] as Map<String, dynamic>?;
-        final eos_token_content = eos_token_map?['content'] as String?;
-        if (eos_token_content != null &&
-            nextTokenId == _tokenToId?[eos_token_content]) {
+        final eosTokenContent = eosTokenMap?['content'] as String?;
+        if (eosTokenContent != null &&
+            nextTokenId == _tokenToId?[eosTokenContent]) {
           break;
         }
 
@@ -372,8 +370,8 @@ class _MathCanvasState extends State<MathCanvas> {
       ..style = PaintingStyle.stroke;
 
     // Scale strokes to fit 384x384
-    final scaleX = 384 / 640;
-    final scaleY = 384 / 480;
+    const scaleX = 384 / 640;
+    const scaleY = 384 / 480;
 
     for (var stroke in strokes) {
       if (stroke.length < 2) continue;

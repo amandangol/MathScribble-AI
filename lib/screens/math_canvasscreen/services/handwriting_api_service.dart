@@ -159,8 +159,9 @@ class HandwritingApiService extends AbstractMathService {
   String _determineExpressionType(String expression) {
     // Check for complex expressions first
     if (_containsTrigFunction(expression)) return 'Trigonometric';
-    if (_containsInverseTrigFunction(expression))
+    if (_containsInverseTrigFunction(expression)) {
       return 'Inverse Trigonometric';
+    }
     if (_containsLogarithm(expression)) return 'Logarithmic';
 
     // Then check for basic operations
@@ -173,8 +174,9 @@ class HandwritingApiService extends AbstractMathService {
     if (expression.contains('^')) return 'Exponentiation';
     if (expression.contains('sqrt')) return 'Square Root';
     if (expression.contains('=')) return 'Equation';
-    if (expression.contains('≤') || expression.contains('≥'))
+    if (expression.contains('≤') || expression.contains('≥')) {
       return 'Inequality';
+    }
 
     return 'Expression';
   }
