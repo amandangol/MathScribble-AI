@@ -7,7 +7,7 @@ class MathHistoryScreen extends StatefulWidget {
   final List<MathHistoryItem> history;
   final Function(List<MathHistoryItem>) onHistoryChanged;
 
-  const MathHistoryScreen({
+  MathHistoryScreen({
     super.key,
     required this.history,
     required this.onHistoryChanged,

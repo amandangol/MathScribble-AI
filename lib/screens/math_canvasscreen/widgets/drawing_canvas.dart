@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:mathscribble_ai/screens/math_canvasscreen/services/math_recognition_factory.dart';
 import '../../../utils/snackbar_utils.dart';
+import '../../dashboardscreen/model/recognition_model.dart';
 import '../model/math_history_model.dart';
 import '../model/math_solution_model.dart';
+import '../services/abstract_math_service.dart';
 import 'painters/drawing_painter.dart';
 import 'painters/guidelines_painter.dart';
-import '../services/math_recognition_service.dart';
 import '../../../utils/custom_loading_overlay.dart';
 import 'result_area.dart';
 
 class DrawingCanvas extends StatefulWidget {
   final Function(MathHistoryItem) onHistoryItemAdded;
+  RecognitionModel selectedModel;
 
-  const DrawingCanvas({
+  DrawingCanvas({
     super.key,
     required this.onHistoryItemAdded,
+    required this.selectedModel,
   });
 
   @override
@@ -33,7 +37,7 @@ class _DrawingCanvasState extends State<DrawingCanvas>
   MathSolution? solvedResult;
   String loadingType = '';
   bool isToolsVisible = false;
-  final MathRecognitionService _recognitionService = MathRecognitionService();
+  late final AbstractMathService _mathService;
 
   late AnimationController _toolsController;
   late Animation<double> _toolsScaleAnimation;
@@ -59,8 +63,21 @@ class _DrawingCanvasState extends State<DrawingCanvas>
   @override
   void initState() {
     super.initState();
-    _recognitionService.initialize();
+    _initializeService();
     _initializeAnimations();
+  }
+
+  Future<void> _initializeService() async {
+    _mathService = MathRecognitionFactory.createService(widget.selectedModel);
+    await _mathService.initialize();
+  }
+
+  @override
+  void didUpdateWidget(DrawingCanvas oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedModel != widget.selectedModel) {
+      _initializeService();
+    }
   }
 
   void _initializeAnimations() {
@@ -93,6 +110,55 @@ class _DrawingCanvasState extends State<DrawingCanvas>
         _toolsController.reverse();
       }
     });
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Color(0xFF3F51B5)),
+        onPressed: () => Navigator.pop(context),
+      ),
+      centerTitle: false,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.selectedModel.emoji,
+            style: const TextStyle(fontSize: 20),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            widget.selectedModel.name,
+            style: const TextStyle(
+              fontFamily: 'Outfit',
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF1A237E),
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        _buildHeaderButton(
+          icon: Icons.undo,
+          onPressed: undoHistory.isEmpty ? null : undo,
+          tooltip: 'Undo',
+        ),
+        _buildHeaderButton(
+          icon: Icons.redo,
+          onPressed: redoHistory.isEmpty ? null : redo,
+          tooltip: 'Redo',
+        ),
+        _buildHeaderButton(
+          icon: Icons.delete_outline,
+          onPressed: clearCanvas,
+          tooltip: 'Clear',
+        ),
+      ],
+    );
   }
 
   @override
@@ -145,44 +211,6 @@ class _DrawingCanvasState extends State<DrawingCanvas>
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Color(0xFF3F51B5)),
-        onPressed: () => Navigator.pop(context),
-      ),
-      centerTitle: false,
-      title: const Text(
-        'Drawing Area',
-        style: TextStyle(
-          fontFamily: 'Outfit',
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: Color(0xFF1A237E),
-        ),
-      ),
-      actions: [
-        _buildHeaderButton(
-          icon: Icons.undo,
-          onPressed: undoHistory.isEmpty ? null : undo,
-          tooltip: 'Undo',
-        ),
-        _buildHeaderButton(
-          icon: Icons.redo,
-          onPressed: redoHistory.isEmpty ? null : redo,
-          tooltip: 'Redo',
-        ),
-        _buildHeaderButton(
-          icon: Icons.delete_outline,
-          onPressed: clearCanvas,
-          tooltip: 'Clear',
-        ),
-      ],
-    );
-  }
-
   Widget _buildDrawingContainer() {
     return Container(
       margin: const EdgeInsets.fromLTRB(6, 8, 6, 100),
@@ -224,7 +252,7 @@ class _DrawingCanvasState extends State<DrawingCanvas>
                     style: const TextStyle(
                       fontFamily: 'Outfit',
                       fontSize: 14,
-                      color: const Color(0xFF3F51B5),
+                      color: Color(0xFF3F51B5),
                     ),
                   ),
                 ],
@@ -601,20 +629,16 @@ class _DrawingCanvasState extends State<DrawingCanvas>
     });
 
     try {
-      final result = await _recognitionService.recognizeExpression(
-        context,
-        points,
-      );
+      final result = await _mathService.recognizeExpression(context, points);
       setState(() {
         recognizedTeX = result['standardized'] ?? '';
       });
     } catch (e) {
       SnackBarUtils.showCustomSnackBar(
         context,
-        message: 'Recognition error',
+        message: 'Recognition error: ${e.toString()}',
         isError: true,
       );
-      print(e);
     } finally {
       setState(() {
         isLoading = false;
@@ -630,7 +654,7 @@ class _DrawingCanvasState extends State<DrawingCanvas>
     });
 
     try {
-      final result = await _recognitionService.solveExpression(expression);
+      final result = await _mathService.solveExpression(expression);
       setState(() {
         solvedResult = result;
       });
@@ -647,7 +671,7 @@ class _DrawingCanvasState extends State<DrawingCanvas>
     } catch (e) {
       SnackBarUtils.showCustomSnackBar(
         context,
-        message: 'Error solving expression',
+        message: 'Error solving expression: ${e.toString()}',
         isError: true,
       );
     } finally {

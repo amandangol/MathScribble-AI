@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import '../../../dashboardscreen/model/recognition_model.dart';
 import '../../model/math_history_model.dart';
 import '../../services/history_persistence_service.dart';
 import '../../widgets/drawing_canvas.dart';
 import '../mathhistory_screen/math_history_screen.dart';
 
 class MathPracticeScreen extends StatefulWidget {
-  const MathPracticeScreen({super.key});
+  final RecognitionModel selectedModel;
+  const MathPracticeScreen({
+    super.key,
+    required this.selectedModel,
+  });
 
   @override
   State<MathPracticeScreen> createState() => _MathPracticeScreenState();
@@ -80,7 +85,10 @@ class _MathPracticeScreenState extends State<MathPracticeScreen> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(24),
-                      child: DrawingCanvas(onHistoryItemAdded: addToHistory),
+                      child: DrawingCanvas(
+                        onHistoryItemAdded: addToHistory,
+                        selectedModel: widget.selectedModel,
+                      ),
                     ),
                   ),
                 ),

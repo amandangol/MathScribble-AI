@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mathscribble_ai/screens/dashboardscreen/dashboard_screen.dart';
 import 'package:mathscribble_ai/screens/math_canvasscreen/view/mathpractice_screen/math_practice_screen.dart';
+import 'screens/dashboardscreen/model/recognition_model.dart';
 import 'screens/onboardingscreen/onboarding_screen.dart';
 import 'screens/splashscreen/splash_screen.dart';
-import 'screens/welcomescreen/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +22,7 @@ class MathRecognitionApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,
-        fontFamily: 'Montserrat',
+        fontFamily: 'Rubik',
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           elevation: 0,
@@ -47,8 +48,12 @@ class MathRecognitionApp extends StatelessWidget {
       home: const SplashScreen(),
       routes: {
         '/onboarding': (context) => const OnboardingScreen(),
-        '/welcome': (context) => const WelcomeScreen(),
-        '/drawing': (context) => const MathPracticeScreen(),
+        '/welcome': (context) => const DashboardScreen(),
+        '/drawing': (context) {
+          final model =
+              ModalRoute.of(context)?.settings.arguments as RecognitionModel;
+          return MathPracticeScreen(selectedModel: model);
+        },
       },
     );
   }

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
+import 'widgets/modelselection_dialog.dart';
+
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
 
   @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
+  State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen>
+class _DashboardScreenState extends State<DashboardScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
@@ -235,14 +237,17 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () => Navigator.pushNamed(context, '/drawing'),
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => const ModelSelectionDialog(),
+            ),
             borderRadius: BorderRadius.circular(16),
             child: Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Start Writing',
+                    'Choose Recognition Model',
                     style: TextStyle(
                       fontFamily: 'Outfit',
                       fontSize: 18,
@@ -258,7 +263,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Icon(
-                      Icons.arrow_forward_rounded,
+                      Icons.model_training,
                       color: Colors.white,
                       size: 18,
                     ),
