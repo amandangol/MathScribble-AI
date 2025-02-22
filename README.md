@@ -9,7 +9,7 @@ MathScribble AI is an innovative Flutter application that transforms handwritten
 - **Step-by-Step Solutions**: Detailed explanations and mathematical rules for each solution step
 - **History & Progress Tracking**: Comprehensive history of solved problems with progress monitoring
 
-<img src="https://github.com/user-attachments/assets/9c22e757-b992-47dd-a759-980e9fa7774d" alt="Home"  height="500">
+<img src="https://github.com/user-attachments/assets/9c22e757-b992-47dd-a759-980e9fa7774d" alt="Home"  height="500"> <img src="https://github.com/user-attachments/assets/fb9edc33-8f03-49b8-8b6d-e3ed32ba114e" alt="Model"  height="500"> <img src="https://github.com/user-attachments/assets/c9030986-28e4-4f10-a565-6c3f1b51f523" alt="Canvas"  height="500"> <img src="https://github.com/user-attachments/assets/7c02f062-1cba-4f0e-a954-d44d59146cf7" alt="History"  height="500">
 
 ## Model Architecture 🧠
 
