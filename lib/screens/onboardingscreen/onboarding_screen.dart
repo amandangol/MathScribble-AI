@@ -16,7 +16,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     OnboardingPage(
       title: 'Smart Math Recognition',
       description:
-          'Transform your handwritten mathematical expressions into digital format instantly with our advanced AI recognition.',
+          'Transform your handwritten mathematical expressions into digital format instantly with our multiple advanced AI recognition.',
       image: 'assets/images/onboard1.png',
       backgroundColor: const Color(0xFFF0F3FF),
       iconData: Icons.auto_awesome,
