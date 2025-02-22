@@ -8,11 +8,10 @@ class MathRecognitionFactory {
   static AbstractMathService createService(RecognitionModel model) {
     switch (model) {
       case RecognitionModel.handwriting:
-        // For handwriting model: use mixed service (Handwriting API + Gemini because handwriting model doesn't support solving)
         return MixedHandwritingService();
       case RecognitionModel.gemini:
-        // For Gemini model: use Gemini for everything
         return GeminiApiService(apiKeys: EnvConfig.geminiApiKeys);
+
       default:
         throw Exception('Unsupported recognition model');
     }

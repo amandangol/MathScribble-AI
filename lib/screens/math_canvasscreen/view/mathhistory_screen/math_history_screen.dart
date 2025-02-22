@@ -298,6 +298,27 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
+                        const SizedBox(height: 8),
+                        // Model info
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.purple.shade50,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            item.recognitionModel.name,
+                            style: TextStyle(
+                              fontFamily: 'Rubik',
+                              fontSize: 10,
+                              color: Colors.purple[700],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -337,7 +358,6 @@ class _MathHistoryScreenState extends State<MathHistoryScreen> {
                           color: Colors.green.shade600, size: 16),
                     ),
                     const SizedBox(width: 12),
-                    // Solution text
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

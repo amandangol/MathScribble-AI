@@ -133,14 +133,14 @@ class _ModelSelectionDialogState extends State<ModelSelectionDialog>
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF0F3FF),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Text(
-                    model.emoji,
-                    style: const TextStyle(fontSize: 24),
+                  child: Image.asset(
+                    model.icon,
+                    height: 24,
                   ),
                 ),
                 const SizedBox(width: 16),

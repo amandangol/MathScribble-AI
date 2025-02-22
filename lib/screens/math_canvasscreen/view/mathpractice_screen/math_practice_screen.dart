@@ -70,7 +70,7 @@ class _MathPracticeScreenState extends State<MathPracticeScreen> {
               Expanded(
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+                      const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,

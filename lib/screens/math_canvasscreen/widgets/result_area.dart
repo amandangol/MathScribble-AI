@@ -193,7 +193,7 @@ class _ResultAreaState extends State<ResultArea>
                           fontFamily: 'Rubik',
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: Color(0xFF3F51B5),
+                          color: const Color(0xFF3F51B5),
                         ),
                       ),
                     ),

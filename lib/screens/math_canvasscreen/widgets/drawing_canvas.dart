@@ -29,7 +29,7 @@ class _DrawingCanvasState extends State<DrawingCanvas>
   List<DrawingPoint?> points = [];
   String recognizedTeX = '';
   bool isLoading = false;
-  Color currentColor = const Color(0xFF3F51B5);
+  Color currentColor = Colors.black;
   double currentStrokeWidth = 2.0;
   String currentTool = 'pen';
   List<List<DrawingPoint?>> undoHistory = [];
@@ -123,9 +123,9 @@ class _DrawingCanvasState extends State<DrawingCanvas>
       centerTitle: false,
       title: Row(
         children: [
-          Text(
-            widget.selectedModel.emoji,
-            style: const TextStyle(fontSize: 16),
+          Image.asset(
+            widget.selectedModel.icon,
+            height: 24,
           ),
           const SizedBox(width: 8),
           Expanded(
@@ -640,6 +640,7 @@ class _DrawingCanvasState extends State<DrawingCanvas>
         message: 'Recognition error: ${e.toString()}',
         isError: true,
       );
+      print(e);
     } finally {
       setState(() {
         isLoading = false;
@@ -662,12 +663,12 @@ class _DrawingCanvasState extends State<DrawingCanvas>
 
       widget.onHistoryItemAdded(
         MathHistoryItem(
-          expression: expression,
-          solution: result.result,
-          steps: result.steps,
-          rules: result.rules,
-          timestamp: DateTime.now(),
-        ),
+            expression: expression,
+            solution: result.result,
+            steps: result.steps,
+            rules: result.rules,
+            timestamp: DateTime.now(),
+            recognitionModel: widget.selectedModel),
       );
     } catch (e) {
       SnackBarUtils.showCustomSnackBar(
@@ -675,6 +676,7 @@ class _DrawingCanvasState extends State<DrawingCanvas>
         message: 'Error solving expression: ${e.toString()}',
         isError: true,
       );
+      print(e);
     } finally {
       setState(() {
         isLoading = false;

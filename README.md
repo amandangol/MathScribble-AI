@@ -71,8 +71,8 @@ class MixedHandwritingService extends AbstractMathService {
 
 1. Expression Parsing
 2. Mathematical Analysis
-3. Step Generation
-4. Rule Identification
+3. Step-by-step solution generation
+4. Rule identification and explanation
 5. Result Verification
 
 ## Setup Instructions 🚀
@@ -80,7 +80,7 @@ class MixedHandwritingService extends AbstractMathService {
 ### Prerequisites
 
 - Flutter SDK (Latest stable version)
-- Dart SDK (Latest stable version)
+- Dart SDK (>=3.4.0)
 - Android Studio / VS Code with Flutter extensions
 - API Keys (Handwriting API and Gemini)
 
@@ -88,7 +88,7 @@ class MixedHandwritingService extends AbstractMathService {
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/mathscribble-ai.git
+   git clone https://github.com/amandangol/mathscribble-ai.git
    cd mathscribble-ai
    ```
 
@@ -96,7 +96,7 @@ class MixedHandwritingService extends AbstractMathService {
    
    Create a `.env` file in the root directory:
    ```env
-   # Multiple Gemini API keys for rotation (comma-separated)
+   # Multiple Gemini API keys for rotation (comma-separated) / OR you can use single API Key too
    GEMINI_API_KEYS=key1,key2,key3,key4
 
    # Handwriting API token
@@ -119,17 +119,12 @@ class MixedHandwritingService extends AbstractMathService {
    }
    ```
 
-4. Add to .gitignore:
-   ```
-   .env
-   ```
-
-5. Install dependencies:
+4. Install dependencies:
    ```bash
    flutter pub get
    ```
 
-6. Run the app:
+5. Run the app:
    ```bash
    flutter run
    ```
@@ -179,10 +174,9 @@ class MixedHandwritingService extends AbstractMathService {
    - Batch processing
    - Memory optimization
 
-## Contributing 🤝
+## Development Notes
 
-We welcome contributions! Please read our contributing guidelines and submit pull requests for any enhancements.
-
-## License 📄
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+- The app requires SDK version >=3.4.0
+- Uses Material Design components
+- Implements custom font families (JetBrainsMono, Rubik, OpenSans, Outfit)
+- Supports environment-based configuration
