@@ -1,8 +1,8 @@
-# MathScribble AI 📐✨
+# MathScribble AI
 
 MathScribble AI is an innovative Flutter application that transforms handwritten mathematical expressions into digital solutions using advanced AI recognition models. The app combines specialized handwriting recognition with powerful mathematical computation capabilities.
 
-## Key Features 🌟
+## Key Features
 
 - **Smart Drawing Tools**: Multiple grid types (square, coordinate, isometric) with customizable colors and stroke widths
 - **Real-time Recognition**: Instant conversion of handwritten mathematical expressions to digital format
