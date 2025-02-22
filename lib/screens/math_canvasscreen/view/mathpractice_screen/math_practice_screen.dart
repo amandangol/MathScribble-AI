@@ -130,7 +130,7 @@ class _MathPracticeScreenState extends State<MathPracticeScreen> {
           const SizedBox(width: 16),
           const Expanded(
             child: Text(
-              'MathScribe AI',
+              'MathScribble AI',
               style: TextStyle(
                 fontFamily: 'Outfit',
                 fontSize: 20,

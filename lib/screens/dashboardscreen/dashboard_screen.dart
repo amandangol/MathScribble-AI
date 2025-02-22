@@ -350,10 +350,10 @@ class _DashboardScreenState extends State<DashboardScreen>
           ),
           const SizedBox(height: 32),
           const Text(
-            'MathScribe AI',
+            'MathScribble AI',
             style: TextStyle(
               fontFamily: 'Outfit',
-              fontSize: 36,
+              fontSize: 30,
               fontWeight: FontWeight.w600,
               height: 1.2,
               color: Color(0xFF1A237E),

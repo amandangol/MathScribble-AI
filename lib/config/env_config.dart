@@ -20,6 +20,7 @@ class EnvConfig {
     return keys;
   }
 
-  static const String handwritingApiToken =
-      'YtLcsAoa9KlmWif9QL8rFgucF50hPPFtFG6NqELj070a0f2e';
+  static String get handwritingApiToken {
+    return dotenv.env['HANDWRITING_API_TOKEN'] ?? '';
+  }
 }

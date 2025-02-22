@@ -106,26 +106,90 @@ class HandwritingApiService extends AbstractMathService {
     }
   }
 
-  String _determineExpressionType(String expression) {
-    if (expression.contains('+')) return 'Addition';
-    if (expression.contains('-')) return 'Subtraction';
-    if (expression.contains('*')) return 'Multiplication';
-    if (expression.contains('/')) return 'Division';
-    if (expression.contains('^')) return 'Exponentiation';
-    if (expression.contains('sqrt')) return 'Square Root';
-    return 'Expression';
-  }
-
   String _convertLatexToStandardized(String latex) {
     return latex
+        // Basic operations
         .replaceAll(r'\frac{', '(')
         .replaceAll('}{', ')/(')
         .replaceAll('}', ')')
         .replaceAll(r'\cdot', '*')
         .replaceAll(r'\times', '*')
         .replaceAll(r'\div', '/')
-        .replaceAll(r'\sqrt{', 'sqrt(')
+        // Parentheses and brackets
         .replaceAll(r'\left(', '(')
-        .replaceAll(r'\right)', ')');
+        .replaceAll(r'\right)', ')')
+        .replaceAll(r'\left[', '[')
+        .replaceAll(r'\right]', ']')
+        .replaceAll(r'\left\{', '{')
+        .replaceAll(r'\right\}', '}')
+        // Powers and roots
+        .replaceAll(r'\sqrt{', 'sqrt(')
+        .replaceAll(r'\^{', '^(')
+        // Trigonometric functions
+        .replaceAll(r'\sin', 'sin')
+        .replaceAll(r'\cos', 'cos')
+        .replaceAll(r'\tan', 'tan')
+        .replaceAll(r'\csc', 'csc')
+        .replaceAll(r'\sec', 'sec')
+        .replaceAll(r'\cot', 'cot')
+        // Inverse trigonometric functions
+        .replaceAll(r'\arcsin', 'arcsin')
+        .replaceAll(r'\arccos', 'arccos')
+        .replaceAll(r'\arctan', 'arctan')
+        // Logarithms
+        .replaceAll(r'\log', 'log')
+        .replaceAll(r'\ln', 'ln')
+        // Other functions
+        .replaceAll(r'\exp', 'exp')
+        // Greek letters commonly used in math
+        .replaceAll(r'\pi', 'π')
+        .replaceAll(r'\theta', 'θ')
+        .replaceAll(r'\alpha', 'α')
+        .replaceAll(r'\beta', 'β')
+        .replaceAll(r'\sum', 'Σ')
+        // Special symbols
+        .replaceAll(r'\infty', '∞')
+        .replaceAll(r'\pm', '±')
+        .replaceAll(r'\leq', '≤')
+        .replaceAll(r'\geq', '≥')
+        .replaceAll(r'\neq', '≠')
+        .replaceAll(r'\approx', '≈');
+  }
+
+  String _determineExpressionType(String expression) {
+    // Check for complex expressions first
+    if (_containsTrigFunction(expression)) return 'Trigonometric';
+    if (_containsInverseTrigFunction(expression))
+      return 'Inverse Trigonometric';
+    if (_containsLogarithm(expression)) return 'Logarithmic';
+
+    // Then check for basic operations
+    if (expression.contains('∞')) return 'Infinite Expression';
+    if (expression.contains('Σ')) return 'Summation';
+    if (expression.contains('+')) return 'Addition';
+    if (expression.contains('-')) return 'Subtraction';
+    if (expression.contains('*')) return 'Multiplication';
+    if (expression.contains('/')) return 'Division';
+    if (expression.contains('^')) return 'Exponentiation';
+    if (expression.contains('sqrt')) return 'Square Root';
+    if (expression.contains('=')) return 'Equation';
+    if (expression.contains('≤') || expression.contains('≥'))
+      return 'Inequality';
+
+    return 'Expression';
+  }
+
+  bool _containsTrigFunction(String expression) {
+    final trigFunctions = ['sin', 'cos', 'tan', 'csc', 'sec', 'cot'];
+    return trigFunctions.any((func) => expression.contains(func));
+  }
+
+  bool _containsInverseTrigFunction(String expression) {
+    final inverseTrigFunctions = ['arcsin', 'arccos', 'arctan'];
+    return inverseTrigFunctions.any((func) => expression.contains(func));
+  }
+
+  bool _containsLogarithm(String expression) {
+    return expression.contains('log') || expression.contains('ln');
   }
 }

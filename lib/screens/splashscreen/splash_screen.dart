@@ -174,10 +174,10 @@ class _SplashScreenState extends State<SplashScreen>
                           child: Opacity(
                             opacity: _titleOpacityAnimation.value,
                             child: const Text(
-                              'MathScribe AI',
+                              'MathScribble AI',
                               style: TextStyle(
                                 fontFamily: 'Outfit',
-                                fontSize: 36,
+                                fontSize: 32,
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFF1A237E),
                                 height: 1.2,

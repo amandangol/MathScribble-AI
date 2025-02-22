@@ -122,21 +122,22 @@ class _DrawingCanvasState extends State<DrawingCanvas>
       ),
       centerTitle: false,
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             widget.selectedModel.emoji,
-            style: const TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 16),
           ),
           const SizedBox(width: 8),
-          Text(
-            widget.selectedModel.name,
-            style: const TextStyle(
-              fontFamily: 'Outfit',
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF1A237E),
+          Expanded(
+            child: Text(
+              widget.selectedModel.name,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontFamily: 'Outfit',
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF1A237E),
+              ),
             ),
           ),
         ],
