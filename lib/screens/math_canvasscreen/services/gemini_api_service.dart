@@ -76,12 +76,53 @@ class GeminiApiService extends AbstractMathService {
       }
 
       const prompt = """
-    Analyze this handwritten mathematical expression image and provide:
-    1. The exact mathematical expression as written using simple arithmetic notation
-    2. A cleaned version with proper spacing and standard arithmetic operators
-    3. The type of mathematical operation(s) involved
-    
-    Format as JSON with keys: "original", "standardized", "type"
+    Analyze the handwritten mathematical expression in this image and provide a detailed breakdown with the following information:
+
+    1. Raw Expression:
+       - Capture the exact expression as written, preserving all symbols, superscripts, subscripts
+       - Include any special notations like square roots, fractions, or powers
+       - Maintain original spacing and grouping
+       - Note any ambiguous or unclear characters
+
+    2. Standardized Expression:
+       - Convert to proper mathematical notation
+       - Add appropriate spacing between operators and operands
+       - Standardize division to use '/' instead of ÷
+       - Use proper multiplication symbol '×' or '*'
+       - Format exponents using '^' notation
+       - Ensure proper parentheses grouping
+
+    3. Classification:
+       - Primary operation type (addition, multiplication, etc.)
+       - Secondary operations if present
+       - Presence of variables or constants
+       - Mathematical domain (arithmetic, algebra, etc.)
+       - Complexity level (basic, intermediate, complex)
+
+    4. Components:
+       - List all numbers detected
+       - List all variables detected
+       - List all mathematical operators
+       - List any special symbols or notations
+       - Note any subscripts or superscripts
+
+    Please format the response as a JSON object with the following structure:
+    {
+      "original": "raw expression exactly as written",
+      "standardized": "properly formatted expression",
+      "type": {
+        "primary": "main operation",
+        "secondary": ["list", "of", "other", "operations"],
+        "domain": "mathematical domain",
+        "complexity": "complexity level"
+      },
+      "components": {
+        "numbers": ["list", "of", "numbers"],
+        "variables": ["list", "of", "variables"],
+        "operators": ["list", "of", "operators"],
+        "special": ["list", "of", "special", "notations"]
+      }
+    }
     """;
 
       final response = await model.generateContent([
@@ -104,7 +145,8 @@ class GeminiApiService extends AbstractMathService {
       return {
         'original': _cleanExpression(parsed['original'] as String),
         'standardized': _cleanExpression(parsed['standardized'] as String),
-        'type': parsed['type'] as String,
+        'type': json.encode(parsed['type']),
+        'components': json.encode(parsed['components']),
       };
     });
   }

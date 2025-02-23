@@ -77,23 +77,99 @@ class MixedHandwritingService extends AbstractMathService {
 5. Result Verification
 
 ## Feature Screens
-- Onboarding Welcome Screen
+### 1. Onboarding Experience
+
+The app starts with an engaging onboarding flow that introduces key features:
+
+- Smart Math Recognition with AI-powered conversion
+
+- Multiple Drawing Tools with customizable grids
+
+- Step-by-Step Solutions with detailed explanations
+
+- Comprehensive history
+
 
 https://github.com/user-attachments/assets/7c930d19-4aa7-4b5b-a0ce-b6d4c337c7fe
 
-- Gemini 2.0 Model
-  
-  https://github.com/user-attachments/assets/ca96a0ef-fc07-4b65-bc6f-5a2c50cd2d71
+### 2. Dashboard Screen
 
--MathHandwrit.ing Model
+The main dashboard features:
+
+- App logo and branding
+
+- Four interactive feature cards:
+
+  - Smart Drawing Tools (✏️)
+
+  - Real-time Recognition (🔄)
+
+  - Step-by-Step Solutions (📊)
+
+  - History & Progress (📝)
+
+- Model Selection button for choosing recognition approach
+
+### 3. Model Selection
+
+Two recognition models available:
+
+- Gemini 2.0 Flash: All-in-one solution for recognition and solving
+
+- MathHandwriting Model: Specialized handwriting recognition
+  
+https://github.com/user-attachments/assets/ca96a0ef-fc07-4b65-bc6f-5a2c50cd2d71
+
 
 https://github.com/user-attachments/assets/86a0d44c-5cba-4377-80b4-506a40a824d6
 
-- Toolbar Feature
+### 4. Drawing Canvas
+
+Advanced drawing interface with:
+
+- Customizable toolbar with:
+
+  - Pen and eraser tools
+
+  - Color palette selection
+
+  - Stroke width adjustment
+
+  - Grid type selection (none, square, coordinate, isometric)
+
+- Undo/redo functionality
+
+- Clear canvas option
+
+- Real-time recognition button
+
+### 5. Solution Display
+
+Results presentation featuring:
+
+- Recognized LaTeX expression
+
+- Step-by-step solution breakdown
+
+- Mathematical rules explanation
 
 https://github.com/user-attachments/assets/dd3d4170-d8a8-49a1-903d-a91b52249fcc
 
-- Math Recognition History Screen
+
+### 6. History Screen
+
+Comprehensive history tracking:
+
+- List of solved problems
+
+- Timestamp for each solution
+
+- Recognition model used
+
+- Expression and solution details
+
+- Steps and rules applied
+
 
 https://github.com/user-attachments/assets/d8c0fae6-0e68-4650-b600-a3885df4800c
 
