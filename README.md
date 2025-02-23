@@ -84,6 +84,23 @@ class MixedHandwritingService extends AbstractMathService {
 - Android Studio / VS Code with Flutter extensions
 - API Keys (Handwriting API and Gemini)
 
+## Feature Screens
+- Onboarding Welcome Screen
+https://github.com/user-attachments/assets/9644c1d2-a385-4d69-a106-df049ff8e75c
+
+- Gemini 2.0 Model
+  https://github.com/user-attachments/assets/ca96a0ef-fc07-4b65-bc6f-5a2c50cd2d71
+
+-MathHandwrit.ing Model
+https://github.com/user-attachments/assets/86a0d44c-5cba-4377-80b4-506a40a824d6
+
+- Toolbar Feature
+https://github.com/user-attachments/assets/dd3d4170-d8a8-49a1-903d-a91b52249fcc
+
+- Math Recognition History Screen
+https://github.com/user-attachments/assets/d8c0fae6-0e68-4650-b600-a3885df4800c
+
+
 ### Installation
 
 1. Clone the repository:
