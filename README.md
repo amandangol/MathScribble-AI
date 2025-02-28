@@ -1,5 +1,5 @@
 # MathScribble AI 
-(Winning app for the February Hackathon Challenge)
+**(Winning App of the February Hackathon Challenge)**
 
 MathScribble AI is an innovative Flutter application that transforms handwritten mathematical expressions into digital solutions using advanced AI recognition models. The app combines specialized handwriting recognition with powerful mathematical computation capabilities.
 
